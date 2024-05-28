@@ -1,78 +1,136 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Gewralds Braook</title>
-        <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
-        <style>
-            html, body {
-                background-color: #fff;
-                color: #636b6f;
-                font-family: 'Nunito', sans-serif;
-                font-weight: 200;
-                height: 100vh;
-                margin: 0;
-            }
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Gewralds Braook aka BugMan</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        html, body {
+            background-color: #0f0f0f;
+            color: #00ff00;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 400;
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
 
-            .full-height {
-                height: 100vh;
-            }
+        .full-height {
+            height: 100vh;
+        }
 
-            .flex-center {
-                align-items: center;
-                display: flex;
-                justify-content: center;
-            }
+        .flex-center {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
 
-            .position-ref {
-                position: relative;
-            }
+        .position-ref {
+            position: relative;
+        }
 
-            .top-right {
-                position: absolute;
-                right: 10px;
-                top: 18px;
-            }
+        .top-right {
+            position: absolute;
+            right: 10px;
+            top: 18px;
+        }
 
-            .content {
-                text-align: center;
-            }
+        .content {
+            text-align: center;
+        }
 
-            .title {
-                font-size: 84px;
-            }
+        .title {
+            font-size: 84px;
+            color: #ff00ff;
+            text-shadow: 0 0 10px #ff00ff;
+            font-weight: 700;
+        }
 
-            .links > a {
-                color: #636b6f;
-                padding: 0 25px;
-                font-size: 13px;
-                font-weight: 600;
-                letter-spacing: .1rem;
-                text-decoration: none;
-                text-transform: uppercase;
-            }
+        .subtitle {
+            font-size: 24px;
+            color: #00ffff;
+            text-shadow: 0 0 10px #00ff00;
+            margin-top: 20px;
+            font-weight: 400;
+        }
 
-            .m-b-md {
-                margin-bottom: 30px;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="flex-center position-ref full-height">
-            <div class="content">
-                <div class="title m-b-md">
-                    Gewralds Braook
-                </div>
-				<div  >
-					Backend developer by day, computer engineering student by night
-				</div>
-				<br>
-                <div class="links">
-                    <a href="https://www.linkedin.com/in/gewralds-braook-39024b1b4/" target="_blank">LinkedIn</a>
-                    <a href="https://github.com/GewraldsBraook" target="_blank">GitHub</a>
-                </div>
+        .links > a {
+            
+            color: #00ff00;
+            padding: 0 25px;
+            font-size: 16px;
+            font-weight: 600;
+            letter-spacing: .1rem;
+            text-decoration: none;
+            text-transform: uppercase;
+            text-shadow: 0 0 5px #00ffff;
+        }
+
+        .links > a:hover {
+            text-shadow: 0 0 10px #00ffff;
+        }
+
+        .m-b-md {
+            margin-bottom: 30px;
+        }
+
+        .background-code {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.1;
+            background: url('https://www.transparenttextures.com/patterns/3px-tile.png');
+        }
+        
+        .icons {
+            margin-top: 20px;
+        }
+        
+        .icons img {
+            width: 40px;
+            margin: 0 10px;
+            filter: invert(100%);
+        }
+        
+        .terminal-effect {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.75);
+            z-index: 0;
+            pointer-events: none;
+            mix-blend-mode: overlay;
+        }
+    </style>
+</head>
+<body>
+    <div class="terminal-effect"></div>
+    <div class="background-code"></div>
+    <div class="flex-center position-ref full-height">
+        <div class="content">
+            <div class="title m-b-md">
+                Gewralds Braook
+            </div>
+            <div class="subtitle">
+                Backend .NET developer by day, computer engineering student by night
+            </div>
+            <br>
+            <div class="links">
+                <a href="https://www.linkedin.com/in/gewralds-braook-39024b1b4/" target="_blank">LinkedIn</a>
+                <a href="https://github.com/GewraldsBraook" target="_blank">GitHub</a>
             </div>
         </div>
-    </body>
+    </div>
+</body>
 </html>

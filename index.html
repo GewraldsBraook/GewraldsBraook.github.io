@@ -1,136 +1,395 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Gewralds Braook aka BugMan</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-        html, body {
-            background-color: #0f0f0f;
-            color: #00ff00;
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 400;
-            height: 100vh;
-            margin: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-        }
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Gewralds Braook // Backend Engineer_01</title>
+  <meta
+    name="description"
+    content="Gewralds Braook - Backend .NET Developer focused on aviation technology, CQRS, event-driven systems, and cloud-based architectures."
+  />
 
-        .full-height {
-            height: 100vh;
-        }
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&family=Rajdhani:wght@400;500;600&display=swap"
+    rel="stylesheet"
+  />
 
-        .flex-center {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-            z-index: 1;
-        }
+  <style>
+    :root {
+      --bg: #050816;
+      --panel: rgba(8, 12, 28, 0.72);
+      --border: rgba(0, 255, 255, 0.2);
+      --cyan: #00f7ff;
+      --magenta: #ff00d4;
+      --green: #72ff8f;
+      --text: #d9faff;
+      --muted: #8fb7c4;
+      --shadow-cyan: 0 0 18px rgba(0, 247, 255, 0.35);
+      --shadow-magenta: 0 0 20px rgba(255, 0, 212, 0.25);
+    }
 
-        .position-ref {
-            position: relative;
-        }
+    * {
+      box-sizing: border-box;
+    }
 
-        .top-right {
-            position: absolute;
-            right: 10px;
-            top: 18px;
-        }
+    html,
+    body {
+      margin: 0;
+      min-height: 100%;
+      background:
+        radial-gradient(circle at top left, rgba(255, 0, 212, 0.16), transparent 30%),
+        radial-gradient(circle at bottom right, rgba(0, 247, 255, 0.12), transparent 35%),
+        linear-gradient(135deg, #02040b 0%, #07101f 45%, #02050e 100%);
+      color: var(--text);
+      font-family: "Rajdhani", sans-serif;
+      overflow: hidden;
+    }
 
-        .content {
-            text-align: center;
-        }
+    body {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
 
-        .title {
-            font-size: 84px;
-            color: #ff00ff;
-            text-shadow: 0 0 10px #ff00ff;
-            font-weight: 700;
-        }
+    .grid-bg,
+    .scanlines,
+    .noise,
+    .glow-orb {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
 
-        .subtitle {
-            font-size: 24px;
-            color: #00ffff;
-            text-shadow: 0 0 10px #00ff00;
-            margin-top: 20px;
-            font-weight: 400;
-        }
+    .grid-bg {
+      background-image:
+        linear-gradient(rgba(0, 247, 255, 0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 247, 255, 0.08) 1px, transparent 1px);
+      background-size: 42px 42px;
+      mask-image: radial-gradient(circle at center, black 45%, transparent 95%);
+      opacity: 0.22;
+    }
 
-        .links > a {
-            
-            color: #00ff00;
-            padding: 0 25px;
-            font-size: 16px;
-            font-weight: 600;
-            letter-spacing: .1rem;
-            text-decoration: none;
-            text-transform: uppercase;
-            text-shadow: 0 0 5px #00ffff;
-        }
+    .scanlines {
+      background: repeating-linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 0.025) 0px,
+        rgba(255, 255, 255, 0.025) 1px,
+        transparent 2px,
+        transparent 4px
+      );
+      mix-blend-mode: soft-light;
+      opacity: 0.22;
+    }
 
-        .links > a:hover {
-            text-shadow: 0 0 10px #00ffff;
-        }
+    .noise {
+      opacity: 0.08;
+      background-image: url("https://www.transparenttextures.com/patterns/asfalt-light.png");
+    }
 
-        .m-b-md {
-            margin-bottom: 30px;
-        }
+    .glow-orb::before,
+    .glow-orb::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(90px);
+    }
 
-        .background-code {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            opacity: 0.1;
-            background: url('https://www.transparenttextures.com/patterns/3px-tile.png');
-        }
-        
-        .icons {
-            margin-top: 20px;
-        }
-        
-        .icons img {
-            width: 40px;
-            margin: 0 10px;
-            filter: invert(100%);
-        }
-        
-        .terminal-effect {
-            width: 100%;
-            height: 100%;
-            position: absolute;
-            top: 0;
-            left: 0;
-            background: rgba(0, 0, 0, 0.75);
-            z-index: 0;
-            pointer-events: none;
-            mix-blend-mode: overlay;
-        }
-    </style>
+    .glow-orb::before {
+      width: 240px;
+      height: 240px;
+      top: 8%;
+      left: 12%;
+      background: rgba(255, 0, 212, 0.18);
+    }
+
+    .glow-orb::after {
+      width: 280px;
+      height: 280px;
+      right: 10%;
+      bottom: 10%;
+      background: rgba(0, 247, 255, 0.16);
+    }
+
+    .card {
+      position: relative;
+      z-index: 2;
+      width: min(960px, 100%);
+      padding: 34px 34px 30px;
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      background: var(--panel);
+      backdrop-filter: blur(12px);
+      box-shadow:
+        0 0 0 1px rgba(255, 255, 255, 0.03) inset,
+        0 24px 80px rgba(0, 0, 0, 0.55),
+        var(--shadow-cyan),
+        var(--shadow-magenta);
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(120deg, transparent 0%, rgba(0, 247, 255, 0.04) 35%, transparent 60%),
+        linear-gradient(300deg, transparent 0%, rgba(255, 0, 212, 0.04) 35%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 22px;
+      flex-wrap: wrap;
+      font-family: "Orbitron", sans-serif;
+    }
+
+    .boot {
+      color: var(--green);
+      font-size: 0.82rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      text-shadow: 0 0 10px rgba(114, 255, 143, 0.45);
+    }
+
+    .status {
+      padding: 8px 14px;
+      border: 1px solid rgba(114, 255, 143, 0.24);
+      border-radius: 999px;
+      color: var(--green);
+      font-size: 0.78rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      background: rgba(114, 255, 143, 0.06);
+      box-shadow: 0 0 12px rgba(114, 255, 143, 0.1);
+    }
+
+    .name {
+      margin: 0;
+      font-family: "Orbitron", sans-serif;
+      font-size: clamp(2.4rem, 7vw, 5.4rem);
+      line-height: 0.95;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #f5f7ff;
+      text-shadow:
+        0 0 10px rgba(255, 255, 255, 0.08),
+        0 0 18px rgba(0, 247, 255, 0.2),
+        0 0 28px rgba(255, 0, 212, 0.18);
+    }
+
+    .alias {
+      display: inline-block;
+      margin-top: 12px;
+      font-family: "Orbitron", sans-serif;
+      font-size: 0.95rem;
+      letter-spacing: 0.25em;
+      color: var(--magenta);
+      text-transform: uppercase;
+      text-shadow: 0 0 12px rgba(255, 0, 212, 0.4);
+    }
+
+    .headline {
+      margin: 22px 0 14px;
+      font-size: clamp(1.05rem, 2vw, 1.35rem);
+      color: var(--cyan);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-shadow: 0 0 12px rgba(0, 247, 255, 0.28);
+    }
+
+    .description {
+      max-width: 760px;
+      margin: 0 auto;
+      color: var(--muted);
+      font-size: 1.08rem;
+      line-height: 1.65;
+    }
+
+    .description strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .chips {
+      margin: 26px 0 30px;
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .chip {
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(0, 247, 255, 0.18);
+      background: rgba(0, 247, 255, 0.05);
+      color: var(--text);
+      font-size: 0.92rem;
+      letter-spacing: 0.05em;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.02);
+    }
+
+    .links {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .links a {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 170px;
+      padding: 14px 20px;
+      border-radius: 14px;
+      text-decoration: none;
+      font-family: "Orbitron", sans-serif;
+      font-size: 0.9rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+      overflow: hidden;
+    }
+
+    .links a:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-primary {
+      color: #061018;
+      background: linear-gradient(90deg, var(--cyan), #7ef9ff);
+      box-shadow: 0 0 20px rgba(0, 247, 255, 0.28);
+    }
+
+    .btn-secondary {
+      color: var(--text);
+      border: 1px solid rgba(255, 0, 212, 0.28);
+      background: rgba(255, 0, 212, 0.08);
+      box-shadow: 0 0 20px rgba(255, 0, 212, 0.12);
+    }
+
+    .footer-line {
+      margin-top: 26px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      color: rgba(143, 183, 196, 0.75);
+      font-size: 0.9rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .footer-line span {
+      color: var(--green);
+    }
+
+    .accent {
+      color: var(--magenta);
+    }
+
+    .center {
+      text-align: center;
+    }
+
+    @media (max-width: 640px) {
+      body {
+        padding: 16px;
+        overflow: auto;
+      }
+
+      .card {
+        padding: 22px 18px 24px;
+      }
+
+      .headline {
+        letter-spacing: 0.05em;
+      }
+
+      .description {
+        font-size: 1rem;
+      }
+
+      .links a {
+        width: 100%;
+      }
+
+      .topbar {
+        justify-content: center;
+      }
+    }
+  </style>
 </head>
 <body>
-    <div class="terminal-effect"></div>
-    <div class="background-code"></div>
-    <div class="flex-center position-ref full-height">
-        <div class="content">
-            <div class="title m-b-md">
-                Gewralds Braook
-            </div>
-            <div class="subtitle">
-                Backend .NET developer by day, computer engineering student by night
-            </div>
-            <br>
-            <div class="links">
-                <a href="https://www.linkedin.com/in/gewralds-braook-39024b1b4/" target="_blank">LinkedIn</a>
-                <a href="https://github.com/GewraldsBraook" target="_blank">GitHub</a>
-            </div>
-        </div>
+  <div class="glow-orb"></div>
+  <div class="grid-bg"></div>
+  <div class="noise"></div>
+  <div class="scanlines"></div>
+
+  <main class="card center">
+    <div class="topbar">
+      <div class="boot">Booting profile...</div>
+      <div class="status">Aviation Tech // Online</div>
     </div>
+
+    <h1 class="name">Gewralds Braook</h1>
+    <div class="alias">aka BugMan</div>
+
+    <div class="headline">
+      Backend .NET Developer // CQRS // Event-Driven Systems
+    </div>
+
+    <p class="description">
+      Building scalable backend solutions in the <strong>.NET ecosystem</strong>,
+      focused on <strong>aviation technology</strong>, clean architecture,
+      <strong>CQRS</strong>, async messaging, APIs, and cloud-based systems.
+    </p>
+
+    <div class="chips">
+      <div class="chip">C# / .NET</div>
+      <div class="chip">Azure</div>
+      <div class="chip">RabbitMQ</div>
+      <div class="chip">Redis</div>
+      <div class="chip">MongoDB</div>
+      <div class="chip">SQL Server</div>
+    </div>
+
+    <div class="links">
+      <a
+        class="btn-primary"
+        href="https://www.linkedin.com/in/gewralds-braook-39024b1b4/"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        LinkedIn
+      </a>
+
+      <a
+        class="btn-secondary"
+        href="https://github.com/GewraldsBraook"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        GitHub
+      </a>
+    </div>
+
+    <div class="footer-line">
+      <div>Sector: <span>Aviation</span></div>
+      <div class="accent">///</div>
+      <div>Mode: <span>Resilient Backend Systems</span></div>
+    </div>
+  </main>
 </body>
 </html>

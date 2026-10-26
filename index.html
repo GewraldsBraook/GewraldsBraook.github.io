@@ -15,13 +15,14 @@
 
   <style>
     :root {
-      --bg-color: #0f172a;
-      --surface-color: #1e293b;
-      --text-primary: #f8fafc;
-      --text-secondary: #94a3b8;
-      --accent-color: #3b82f6; /* Modern Blue */
-      --accent-hover: #60a5fa;
-      --border-color: #334155;
+      --bg-dark: #0b1121;
+      --card-bg: #151e32;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --accent: #38bdf8;
+      --accent-hover: #0284c7;
+      --accent-glow: rgba(56, 189, 248, 0.25);
+      --border-color: rgba(255, 255, 255, 0.08);
     }
 
     * {
@@ -32,309 +33,482 @@
 
     body {
       font-family: 'Inter', sans-serif;
-      background-color: var(--bg-color);
-      color: var(--text-primary);
+      background-color: var(--bg-dark);
+      color: var(--text-main);
       line-height: 1.6;
       -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
     }
 
     a {
-      color: var(--accent-color);
+      color: var(--accent);
       text-decoration: none;
-      transition: color 0.2s ease;
+      transition: color 0.3s ease;
     }
 
     a:hover {
       color: var(--accent-hover);
-      text-decoration: underline;
     }
 
-    .container {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 40px 20px;
-    }
-
-    header {
-      border-bottom: 1px solid var(--border-color);
-      padding-bottom: 30px;
-      margin-bottom: 40px;
+    /* Hero Section */
+    .hero {
+      min-height: 85vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
       text-align: center;
+      padding: 2rem;
+      background: radial-gradient(circle at top, #162444 0%, var(--bg-dark) 60%);
+      position: relative;
     }
 
-    header h1 {
-      font-size: 2.5rem;
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 100px;
+      background: linear-gradient(to bottom, transparent, var(--bg-dark));
+    }
+
+    .hero h1 {
+      font-size: clamp(3rem, 8vw, 5rem);
       font-weight: 700;
-      margin-bottom: 10px;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(135deg, #ffffff 0%, var(--accent) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
       letter-spacing: -0.02em;
     }
 
-    header h2 {
-      font-size: 1.25rem;
-      color: var(--text-secondary);
+    .hero h2 {
+      font-size: clamp(1.2rem, 3vw, 1.8rem);
+      color: var(--text-muted);
       font-weight: 400;
-      margin-bottom: 20px;
+      margin-bottom: 1.5rem;
     }
 
-    .contact-info {
+    .hero-meta {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
       gap: 15px;
+      color: var(--text-muted);
       font-size: 0.95rem;
-      color: var(--text-secondary);
+      margin-bottom: 2.5rem;
     }
 
-    .contact-info span {
+    .hero-meta span {
       display: flex;
       align-items: center;
-      gap: 5px;
     }
 
-    .contact-info span::after {
+    .hero-meta span:not(:last-child)::after {
       content: "•";
       margin-left: 15px;
       color: var(--border-color);
     }
 
-    .contact-info span:last-child::after {
-      content: "";
+    .contact-links {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+      justify-content: center;
+      z-index: 10;
     }
 
-    section {
-      margin-bottom: 50px;
+    .btn {
+      padding: 12px 24px;
+      border-radius: 8px;
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      transition: all 0.3s ease;
+      background: rgba(56, 189, 248, 0.05);
     }
 
-    h3 {
-      font-size: 1.5rem;
-      font-weight: 600;
-      margin-bottom: 20px;
-      color: var(--text-primary);
-      border-bottom: 1px solid var(--border-color);
-      padding-bottom: 10px;
-      display: inline-block;
+    .btn:hover {
+      background: var(--accent);
+      color: #0b1121;
+      box-shadow: 0 0 20px var(--accent-glow);
+      transform: translateY(-2px);
     }
 
-    p {
-      color: var(--text-secondary);
-      margin-bottom: 15px;
-    }
-
-    /* Skills */
-    .skills-grid {
+    /* Layout */
+    .content-wrapper {
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 4rem 2rem;
       display: grid;
       grid-template-columns: 1fr;
-      gap: 15px;
+      gap: 4rem;
     }
 
-    @media (min-width: 768px) {
-      .skills-grid {
-        grid-template-columns: auto 1fr;
-        gap: 15px 30px;
+    @media (min-width: 992px) {
+      .content-wrapper {
+        grid-template-columns: 1fr 1.6fr;
+      }
+      .column-left {
+        position: sticky;
+        top: 2rem;
+        height: fit-content;
       }
     }
 
-    .skill-category {
+    section {
+      margin-bottom: 4rem;
+    }
+
+    h3 {
+      font-size: 1.8rem;
       font-weight: 600;
-      color: var(--text-primary);
-      min-width: 220px;
+      margin-bottom: 2rem;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
 
-    .skill-items {
-      color: var(--text-secondary);
+    h3::after {
+      content: "";
+      height: 1px;
+      flex-grow: 1;
+      background: var(--border-color);
     }
 
-    /* Experience */
-    .job {
-      margin-bottom: 30px;
+    p {
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+      font-size: 1.05rem;
     }
 
-    .job-header {
+    /* Cards */
+    .card {
+      background: var(--card-bg);
+      padding: 2rem;
+      border-radius: 16px;
+      margin-bottom: 1.5rem;
+      border: 1px solid var(--border-color);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; width: 4px; height: 100%;
+      background: var(--accent);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px -10px rgba(0,0,0,0.5), 0 0 20px var(--accent-glow);
+      border-color: rgba(56, 189, 248, 0.3);
+    }
+
+    .card:hover::before {
+      opacity: 1;
+    }
+
+    .card-header {
       display: flex;
       flex-direction: column;
-      margin-bottom: 10px;
+      margin-bottom: 1rem;
     }
 
     @media (min-width: 600px) {
-      .job-header {
+      .card-header {
         flex-direction: row;
         justify-content: space-between;
         align-items: baseline;
       }
     }
 
-    .job-title {
-      font-size: 1.15rem;
+    .card-title {
+      font-size: 1.25rem;
       font-weight: 600;
-      color: var(--text-primary);
+      color: var(--text-main);
     }
 
-    .job-company {
-      color: var(--accent-color);
+    .card-subtitle {
+      color: var(--accent);
       font-weight: 500;
+      margin-top: 5px;
     }
 
-    .job-meta {
+    .card-meta {
       font-size: 0.9rem;
-      color: var(--text-secondary);
+      color: var(--text-muted);
+      margin-top: 5px;
     }
 
-    ul {
+    .card ul {
       list-style-type: none;
-      margin-left: 0;
+      margin-top: 1rem;
     }
 
-    li {
+    .card li {
       position: relative;
       padding-left: 20px;
-      margin-bottom: 8px;
-      color: var(--text-secondary);
+      margin-bottom: 10px;
+      color: var(--text-muted);
+      font-size: 0.95rem;
     }
 
-    li::before {
+    .card li::before {
       content: "▹";
       position: absolute;
       left: 0;
-      color: var(--accent-color);
+      color: var(--accent);
     }
 
-    /* Projects */
-    .project {
-      margin-bottom: 20px;
+    /* Skills Tags */
+    .skills-group {
+      margin-bottom: 1.5rem;
     }
 
-    .project strong {
-      color: var(--text-primary);
+    .skills-group h4 {
+      font-size: 1rem;
+      color: var(--text-main);
+      margin-bottom: 0.8rem;
+      font-weight: 500;
     }
 
-    /* Education */
-    .education-item {
-      margin-bottom: 15px;
+    .skills-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
     }
 
-    .education-title {
-      font-weight: 600;
-      color: var(--text-primary);
+    .skill-tag {
+      background: rgba(56, 189, 248, 0.08);
+      color: var(--accent);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      border: 1px solid rgba(56, 189, 248, 0.15);
+      transition: all 0.3s ease;
     }
+
+    .skill-tag:hover {
+      background: var(--accent);
+      color: #0b1121;
+      transform: scale(1.05);
+    }
+
+    /* Reveal Animations */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.8s cubic-bezier(0.5, 0, 0, 1), transform 0.8s cubic-bezier(0.5, 0, 0, 1);
+    }
+
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .stagger-1 { transition-delay: 0.1s; }
+    .stagger-2 { transition-delay: 0.2s; }
+    .stagger-3 { transition-delay: 0.3s; }
   </style>
 </head>
 <body>
-  <div class="container">
-    <header>
-      <h1>Gewralds Braook</h1>
-      <h2>Backend .NET Engineer | C# · Azure · Microservices · Event-Driven Systems</h2>
-      <div class="contact-info">
-        <span>Manizales, Caldas, Colombia</span>
-        <span>Remote-ready (COT / UTC-5)</span>
-        <span>+57 312 286 1511</span>
-        <span><a href="mailto:gewralds@outlook.com">gewralds@outlook.com</a></span>
-        <span><a href="https://www.linkedin.com/in/gewralds-braook-39024b1b4/" target="_blank">LinkedIn</a></span>
-        <span><a href="https://gewraldsbraook.github.io/" target="_blank">Portfolio</a></span>
-      </div>
-    </header>
 
-    <main>
-      <section>
-        <h3>Professional Summary</h3>
+  <header class="hero reveal active">
+    <h1>Gewralds Braook</h1>
+    <h2>Backend .NET Engineer</h2>
+
+    <div class="hero-meta stagger-1 reveal active">
+      <span>Manizales, Colombia</span>
+      <span>Remote-ready (COT)</span>
+      <span>+57 312 286 1511</span>
+    </div>
+
+    <div class="contact-links stagger-2 reveal active">
+      <a href="mailto:gewralds@outlook.com" class="btn">Email Me</a>
+      <a href="https://www.linkedin.com/in/gewralds-braook-39024b1b4/" target="_blank" class="btn">LinkedIn</a>
+      <a href="https://gewraldsbraook.github.io/" target="_blank" class="btn">Portfolio</a>
+    </div>
+  </header>
+
+  <main class="content-wrapper">
+    <!-- Left Column: Summary, Skills, Education -->
+    <div class="column-left">
+
+      <section class="reveal">
+        <h3>About Me</h3>
         <p>
-          Backend .NET Engineer with 6+ years of experience designing and building backend services, REST APIs and distributed systems for airline and travel technology products. Experienced with C#, .NET, Azure, RabbitMQ, Redis, SQL Server, MongoDB, CQRS, clean architecture and event-driven systems. Contributed to solutions for VivaAir, JSX and Riyadh Air, including operational reporting integrations, disruption management tools and Offer & Order capabilities. Strong focus on maintainable software, production reliability, technical ownership and business-oriented delivery.
+          Backend .NET Engineer with <strong>6+ years of experience</strong> designing and building backend services, REST APIs and distributed systems for airline and travel technology products.
+        </p>
+        <p>
+          Experienced with C#, .NET, Azure, RabbitMQ, Redis, SQL Server, MongoDB, CQRS, clean architecture and event-driven systems. Strong focus on maintainable software, production reliability, technical ownership and business-oriented delivery.
         </p>
       </section>
 
-      <section>
+      <section class="reveal">
         <h3>Technical Skills</h3>
-        <div class="skills-grid">
-          <div class="skill-category">Languages & Frameworks:</div>
-          <div class="skill-items">C#, .NET Framework, .NET 6/7/8/9, ASP.NET Core, WCF</div>
 
-          <div class="skill-category">Architecture & Backend:</div>
-          <div class="skill-items">REST APIs, Microservices, Distributed Systems, Event-Driven Architecture, Clean Architecture, CQRS, Domain-Driven Design</div>
+        <div class="skills-group">
+          <h4>Languages & Frameworks</h4>
+          <div class="skills-container">
+            <span class="skill-tag">C#</span>
+            <span class="skill-tag">.NET 6/7/8/9</span>
+            <span class="skill-tag">.NET Framework</span>
+            <span class="skill-tag">ASP.NET Core</span>
+            <span class="skill-tag">WCF</span>
+          </div>
+        </div>
 
-          <div class="skill-category">Cloud & DevOps:</div>
-          <div class="skill-items">Microsoft Azure, Azure DevOps, CI/CD, Docker</div>
+        <div class="skills-group">
+          <h4>Architecture & Cloud</h4>
+          <div class="skills-container">
+            <span class="skill-tag">Microservices</span>
+            <span class="skill-tag">Event-Driven Architecture</span>
+            <span class="skill-tag">CQRS</span>
+            <span class="skill-tag">Clean Architecture</span>
+            <span class="skill-tag">Azure</span>
+            <span class="skill-tag">Docker</span>
+          </div>
+        </div>
 
-          <div class="skill-category">Messaging, Data & Tools:</div>
-          <div class="skill-items">RabbitMQ, Redis, SQL Server, MongoDB, Postman</div>
-
-          <div class="skill-category">Testing & Quality:</div>
-          <div class="skill-items">Unit Testing, xUnit, Code Reviews, Debugging, Production Support</div>
-
-          <div class="skill-category">AI-Assisted Engineering:</div>
-          <div class="skill-items">GitHub Copilot, Copilot CLI, Claude Code, Spec-Driven Development</div>
-
-          <div class="skill-category">Ways of Working:</div>
-          <div class="skill-items">Agile, Scrum, Kanban, Backlog Refinement, Technical Documentation</div>
+        <div class="skills-group">
+          <h4>Data & Messaging</h4>
+          <div class="skills-container">
+            <span class="skill-tag">RabbitMQ</span>
+            <span class="skill-tag">Redis</span>
+            <span class="skill-tag">SQL Server</span>
+            <span class="skill-tag">MongoDB</span>
+          </div>
         </div>
       </section>
 
-      <section>
-        <h3>Work Experience</h3>
-
-        <div class="job">
-          <div class="job-header">
-            <div class="job-title">Software Engineer II | <span class="job-company">FLYR</span></div>
-            <div class="job-meta">Aug 2022 - Jun 2026 | Manizales, Colombia · Hybrid</div>
-          </div>
-          <ul>
-            <li>Contributed to airline software products for VivaAir, JSX and Riyadh Air, focusing on backend services, integration flows and operational workflows.</li>
-            <li>Built and maintained backend services for Offer & Order capabilities for Riyadh Air, applying clean architecture, CQRS, event-driven design and distributed backend patterns.</li>
-            <li>Implemented through-flight logic in Disruption Management Tools (DMT) to support operational continuity for JSX during flight disruption scenarios.</li>
-            <li>Designed and maintained APIs and backend components using C#, .NET, Azure, RabbitMQ, Redis, SQL Server, MongoDB and REST APIs in production-oriented environments.</li>
-            <li>Participated in technical design discussions, backlog refinement, code reviews and production support, contributing to maintainability, delivery quality and operational stability.</li>
-            <li>Used AI-assisted and spec-driven engineering practices selectively for requirement breakdown, code navigation, documentation, implementation planning and test scaffolding while retaining technical ownership.</li>
-          </ul>
-        </div>
-
-        <div class="job">
-          <div class="job-header">
-            <div class="job-title">Backend .NET Developer | <span class="job-company">Algar Tech LATAM</span></div>
-            <div class="job-meta">Feb 2022 - Aug 2022</div>
-          </div>
-          <ul>
-            <li>Maintained and supported an enterprise application built on .NET Framework for a direct sales company in the marketing sector.</li>
-            <li>Resolved technical incidents, improved system stability and implemented corrective and minor functional enhancements using SQL Server and Microsoft ecosystem tools.</li>
-            <li>Supported business-critical workflows through debugging, database analysis and production support.</li>
-          </ul>
-        </div>
-
-        <div class="job">
-          <div class="job-header">
-            <div class="job-title">Back-End Developer | <span class="job-company">Newshore</span></div>
-            <div class="job-meta">Jul 2019 - Feb 2022 | Manizales, Colombia · On-site</div>
-          </div>
-          <ul>
-            <li>Worked as backend developer on VivaAir projects, contributing to airline operations, reservation platforms and internal backend services.</li>
-            <li>Participated in the SkyLedger integration for operational reporting, improving data exchange between internal systems and external platforms.</li>
-            <li>Developed backend functionalities using .NET Framework, ASP.NET Core, WCF, REST services and SQL Server.</li>
-            <li>Automated internal processes and supported production environments focused on availability, reliability and operational continuity.</li>
-          </ul>
-        </div>
-      </section>
-
-      <section>
-        <h3>Selected Projects</h3>
-        <div class="project">
-          <strong>Offer & Order - Riyadh Air:</strong> Backend components for airline retailing and ordering capabilities; focus on CQRS, clean architecture, event-driven flows and integration boundaries.
-        </div>
-        <div class="project">
-          <strong>Disruption Management Tools - JSX:</strong> Through-flight logic for disruption scenarios; focus on domain workflows, operational continuity and production reliability.
-        </div>
-        <div class="project">
-          <strong>SkyLedger Integration - VivaAir:</strong> Operational reporting integration using WCF, REST services and SQL Server; focus on reliable internal-to-external data exchange.
-        </div>
-      </section>
-
-      <section>
+      <section class="reveal">
         <h3>Education</h3>
-        <div class="education-item">
-          <div class="education-title">Bachelor's Degree in Computer Engineering (Ingeniería en Informática)</div>
-          <div class="job-meta">University of Caldas | 2019 - 2026</div>
+        <div class="card">
+          <div class="card-title">Bachelor's in Computer Engineering</div>
+          <div class="card-subtitle">University of Caldas</div>
+          <div class="card-meta">2019 - 2026</div>
           <ul>
             <li>Completed degree part-time while working full-time in the software industry.</li>
           </ul>
         </div>
       </section>
-    </main>
-  </div>
+
+    </div>
+
+    <!-- Right Column: Experience, Projects -->
+    <div class="column-right">
+
+      <section>
+        <h3 class="reveal">Work Experience</h3>
+
+        <div class="card reveal stagger-1">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Software Engineer II</div>
+              <div class="card-subtitle">FLYR</div>
+            </div>
+            <div class="card-meta">Aug 2022 - Jun 2026 | Hybrid</div>
+          </div>
+          <ul>
+            <li>Contributed to airline software products for VivaAir, JSX and Riyadh Air, focusing on backend services, integration flows and operational workflows.</li>
+            <li>Built and maintained backend services for Offer & Order capabilities for Riyadh Air, applying clean architecture, CQRS, event-driven design and distributed backend patterns.</li>
+            <li>Implemented through-flight logic in Disruption Management Tools (DMT) to support operational continuity for JSX during flight disruption scenarios.</li>
+            <li>Designed and maintained APIs and backend components using C#, .NET, Azure, RabbitMQ, Redis, SQL Server, MongoDB in production.</li>
+            <li>Used AI-assisted and spec-driven engineering practices selectively for requirement breakdown, code navigation, and test scaffolding.</li>
+          </ul>
+        </div>
+
+        <div class="card reveal stagger-2">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Backend .NET Developer</div>
+              <div class="card-subtitle">Algar Tech LATAM</div>
+            </div>
+            <div class="card-meta">Feb 2022 - Aug 2022</div>
+          </div>
+          <ul>
+            <li>Maintained and supported an enterprise application built on .NET Framework for a direct sales company in the marketing sector.</li>
+            <li>Resolved technical incidents, improved system stability and implemented corrective and minor functional enhancements using SQL Server.</li>
+            <li>Supported business-critical workflows through debugging, database analysis and production support.</li>
+          </ul>
+        </div>
+
+        <div class="card reveal stagger-3">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Back-End Developer</div>
+              <div class="card-subtitle">Newshore</div>
+            </div>
+            <div class="card-meta">Jul 2019 - Feb 2022 | On-site</div>
+          </div>
+          <ul>
+            <li>Worked as backend developer on VivaAir projects, contributing to airline operations, reservation platforms and internal backend services.</li>
+            <li>Participated in the SkyLedger integration for operational reporting, improving data exchange between internal systems and external platforms.</li>
+            <li>Developed backend functionalities using .NET Framework, ASP.NET Core, WCF, REST services and SQL Server.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section>
+        <h3 class="reveal">Selected Projects</h3>
+
+        <div class="card reveal">
+          <div class="card-title">Offer & Order - Riyadh Air</div>
+          <p style="margin-top: 10px; font-size: 0.95rem;">
+            Backend components for airline retailing and ordering capabilities; focus on CQRS, clean architecture, event-driven flows and integration boundaries.
+          </p>
+        </div>
+
+        <div class="card reveal">
+          <div class="card-title">Disruption Management Tools - JSX</div>
+          <p style="margin-top: 10px; font-size: 0.95rem;">
+            Through-flight logic for disruption scenarios; focus on domain workflows, operational continuity and production reliability.
+          </p>
+        </div>
+
+        <div class="card reveal">
+          <div class="card-title">SkyLedger Integration - VivaAir</div>
+          <p style="margin-top: 10px; font-size: 0.95rem;">
+            Operational reporting integration using WCF, REST services and SQL Server; focus on reliable internal-to-external data exchange.
+          </p>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <script>
+    // Intersection Observer for scroll animations
+    document.addEventListener('DOMContentLoaded', () => {
+      const observerOptions = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.15
+      };
+
+      const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('active');
+            // Optional: stop observing once animated
+            // observer.unobserve(entry.target);
+          }
+        });
+      }, observerOptions);
+
+      // Select all elements with the 'reveal' class that aren't already active (like the hero)
+      const revealElements = document.querySelectorAll('.reveal:not(.active)');
+      revealElements.forEach(el => observer.observe(el));
+    });
+  </script>
 </body>
 </html>

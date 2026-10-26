@@ -1,395 +1,356 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Gewralds Braook // Backend Engineer_01</title>
-  <meta
-    name="description"
-    content="Gewralds Braook - Backend .NET Developer focused on aviation technology, CQRS, event-driven systems, and cloud-based architectures."
-  />
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#08111f" />
+    <meta name="color-scheme" content="dark light" />
 
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&family=Rajdhani:wght@400;500;600&display=swap"
-    rel="stylesheet"
-  />
+    <title>Gewralds Braook - Backend .NET Engineer | Aviation Technology</title>
+    <meta
+      name="description"
+      content="Backend .NET Engineer with 6+ years of experience building resilient APIs, distributed systems, and event-driven solutions for aviation technology."
+    />
+    <meta name="author" content="Gewralds Braook" />
+    <link rel="canonical" href="https://gewraldsbraook.github.io/" />
 
-  <style>
-    :root {
-      --bg: #050816;
-      --panel: rgba(8, 12, 28, 0.72);
-      --border: rgba(0, 255, 255, 0.2);
-      --cyan: #00f7ff;
-      --magenta: #ff00d4;
-      --green: #72ff8f;
-      --text: #d9faff;
-      --muted: #8fb7c4;
-      --shadow-cyan: 0 0 18px rgba(0, 247, 255, 0.35);
-      --shadow-magenta: 0 0 20px rgba(255, 0, 212, 0.25);
-    }
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://gewraldsbraook.github.io/" />
+    <meta property="og:title" content="Gewralds Braook - Backend .NET Engineer" />
+    <meta
+      property="og:description"
+      content="Reliable backend systems for aviation operations, retailing, and integration."
+    />
+    <meta name="twitter:card" content="summary" />
 
-    * {
-      box-sizing: border-box;
-    }
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="styles.css" />
+    <script>
+      document.documentElement.classList.add("js");
+    </script>
+    <script src="app.js" defer></script>
 
-    html,
-    body {
-      margin: 0;
-      min-height: 100%;
-      background:
-        radial-gradient(circle at top left, rgba(255, 0, 212, 0.16), transparent 30%),
-        radial-gradient(circle at bottom right, rgba(0, 247, 255, 0.12), transparent 35%),
-        linear-gradient(135deg, #02040b 0%, #07101f 45%, #02050e 100%);
-      color: var(--text);
-      font-family: "Rajdhani", sans-serif;
-      overflow: hidden;
-    }
-
-    body {
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 24px;
-    }
-
-    .grid-bg,
-    .scanlines,
-    .noise,
-    .glow-orb {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-    }
-
-    .grid-bg {
-      background-image:
-        linear-gradient(rgba(0, 247, 255, 0.08) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0, 247, 255, 0.08) 1px, transparent 1px);
-      background-size: 42px 42px;
-      mask-image: radial-gradient(circle at center, black 45%, transparent 95%);
-      opacity: 0.22;
-    }
-
-    .scanlines {
-      background: repeating-linear-gradient(
-        to bottom,
-        rgba(255, 255, 255, 0.025) 0px,
-        rgba(255, 255, 255, 0.025) 1px,
-        transparent 2px,
-        transparent 4px
-      );
-      mix-blend-mode: soft-light;
-      opacity: 0.22;
-    }
-
-    .noise {
-      opacity: 0.08;
-      background-image: url("https://www.transparenttextures.com/patterns/asfalt-light.png");
-    }
-
-    .glow-orb::before,
-    .glow-orb::after {
-      content: "";
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(90px);
-    }
-
-    .glow-orb::before {
-      width: 240px;
-      height: 240px;
-      top: 8%;
-      left: 12%;
-      background: rgba(255, 0, 212, 0.18);
-    }
-
-    .glow-orb::after {
-      width: 280px;
-      height: 280px;
-      right: 10%;
-      bottom: 10%;
-      background: rgba(0, 247, 255, 0.16);
-    }
-
-    .card {
-      position: relative;
-      z-index: 2;
-      width: min(960px, 100%);
-      padding: 34px 34px 30px;
-      border: 1px solid var(--border);
-      border-radius: 24px;
-      background: var(--panel);
-      backdrop-filter: blur(12px);
-      box-shadow:
-        0 0 0 1px rgba(255, 255, 255, 0.03) inset,
-        0 24px 80px rgba(0, 0, 0, 0.55),
-        var(--shadow-cyan),
-        var(--shadow-magenta);
-      overflow: hidden;
-    }
-
-    .card::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background:
-        linear-gradient(120deg, transparent 0%, rgba(0, 247, 255, 0.04) 35%, transparent 60%),
-        linear-gradient(300deg, transparent 0%, rgba(255, 0, 212, 0.04) 35%, transparent 60%);
-      pointer-events: none;
-    }
-
-    .topbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 16px;
-      margin-bottom: 22px;
-      flex-wrap: wrap;
-      font-family: "Orbitron", sans-serif;
-    }
-
-    .boot {
-      color: var(--green);
-      font-size: 0.82rem;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      text-shadow: 0 0 10px rgba(114, 255, 143, 0.45);
-    }
-
-    .status {
-      padding: 8px 14px;
-      border: 1px solid rgba(114, 255, 143, 0.24);
-      border-radius: 999px;
-      color: var(--green);
-      font-size: 0.78rem;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      background: rgba(114, 255, 143, 0.06);
-      box-shadow: 0 0 12px rgba(114, 255, 143, 0.1);
-    }
-
-    .name {
-      margin: 0;
-      font-family: "Orbitron", sans-serif;
-      font-size: clamp(2.4rem, 7vw, 5.4rem);
-      line-height: 0.95;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: #f5f7ff;
-      text-shadow:
-        0 0 10px rgba(255, 255, 255, 0.08),
-        0 0 18px rgba(0, 247, 255, 0.2),
-        0 0 28px rgba(255, 0, 212, 0.18);
-    }
-
-    .alias {
-      display: inline-block;
-      margin-top: 12px;
-      font-family: "Orbitron", sans-serif;
-      font-size: 0.95rem;
-      letter-spacing: 0.25em;
-      color: var(--magenta);
-      text-transform: uppercase;
-      text-shadow: 0 0 12px rgba(255, 0, 212, 0.4);
-    }
-
-    .headline {
-      margin: 22px 0 14px;
-      font-size: clamp(1.05rem, 2vw, 1.35rem);
-      color: var(--cyan);
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      text-shadow: 0 0 12px rgba(0, 247, 255, 0.28);
-    }
-
-    .description {
-      max-width: 760px;
-      margin: 0 auto;
-      color: var(--muted);
-      font-size: 1.08rem;
-      line-height: 1.65;
-    }
-
-    .description strong {
-      color: var(--text);
-      font-weight: 600;
-    }
-
-    .chips {
-      margin: 26px 0 30px;
-      display: flex;
-      justify-content: center;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    .chip {
-      padding: 10px 14px;
-      border-radius: 999px;
-      border: 1px solid rgba(0, 247, 255, 0.18);
-      background: rgba(0, 247, 255, 0.05);
-      color: var(--text);
-      font-size: 0.92rem;
-      letter-spacing: 0.05em;
-      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.02);
-    }
-
-    .links {
-      display: flex;
-      justify-content: center;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
-
-    .links a {
-      position: relative;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-width: 170px;
-      padding: 14px 20px;
-      border-radius: 14px;
-      text-decoration: none;
-      font-family: "Orbitron", sans-serif;
-      font-size: 0.9rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-      overflow: hidden;
-    }
-
-    .links a:hover {
-      transform: translateY(-2px);
-    }
-
-    .btn-primary {
-      color: #061018;
-      background: linear-gradient(90deg, var(--cyan), #7ef9ff);
-      box-shadow: 0 0 20px rgba(0, 247, 255, 0.28);
-    }
-
-    .btn-secondary {
-      color: var(--text);
-      border: 1px solid rgba(255, 0, 212, 0.28);
-      background: rgba(255, 0, 212, 0.08);
-      box-shadow: 0 0 20px rgba(255, 0, 212, 0.12);
-    }
-
-    .footer-line {
-      margin-top: 26px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 10px;
-      flex-wrap: wrap;
-      color: rgba(143, 183, 196, 0.75);
-      font-size: 0.9rem;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-
-    .footer-line span {
-      color: var(--green);
-    }
-
-    .accent {
-      color: var(--magenta);
-    }
-
-    .center {
-      text-align: center;
-    }
-
-    @media (max-width: 640px) {
-      body {
-        padding: 16px;
-        overflow: auto;
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Gewralds Braook",
+        "url": "https://gewraldsbraook.github.io/",
+        "jobTitle": "Backend .NET Engineer",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Manizales",
+          "addressCountry": "CO"
+        },
+        "sameAs": [
+          "https://www.linkedin.com/in/gewralds-braook-39024b1b4/",
+          "https://github.com/GewraldsBraook"
+        ]
       }
+    </script>
+  </head>
 
-      .card {
-        padding: 22px 18px 24px;
-      }
+  <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <div class="scroll-progress" aria-hidden="true"><span></span></div>
+    <div class="page-grid" aria-hidden="true"></div>
+    <div class="ambient ambient-one" aria-hidden="true"></div>
+    <div class="ambient ambient-two" aria-hidden="true"></div>
 
-      .headline {
-        letter-spacing: 0.05em;
-      }
+    <header class="site-header" data-header>
+      <div class="header-inner shell">
+        <a class="brand" href="#top" aria-label="GB - Gewralds Braook - home">
+          <span class="brand-mark">GB</span>
+          <span class="brand-copy">
+            <strong>Gewralds Braook</strong>
+            <small>Backend systems engineer</small>
+          </span>
+        </a>
 
-      .description {
-        font-size: 1rem;
-      }
+        <nav class="desktop-nav" aria-label="Primary navigation">
+          <a href="#profile">Profile</a>
+          <a href="#experience">Experience</a>
+          <a href="#work">Selected work</a>
+          <a href="#capabilities">Capabilities</a>
+        </nav>
 
-      .links a {
-        width: 100%;
-      }
+        <div class="header-actions">
+          <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to light theme">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 2.75v2.1m0 14.3v2.1M21.25 12h-2.1M4.85 12h-2.1m15.79-6.54-1.49 1.49M6.95 17.05l-1.49 1.49m13.08 0-1.49-1.49M6.95 6.95 5.46 5.46" />
+              <circle cx="12" cy="12" r="4.1" />
+            </svg>
+          </button>
+          <a class="header-cta" href="#contact">Let's connect</a>
 
-      .topbar {
-        justify-content: center;
-      }
-    }
-  </style>
-</head>
-<body>
-  <div class="glow-orb"></div>
-  <div class="grid-bg"></div>
-  <div class="noise"></div>
-  <div class="scanlines"></div>
+          <details class="mobile-menu">
+            <summary aria-label="Open navigation menu"><span></span><span></span></summary>
+            <nav aria-label="Mobile navigation">
+              <a href="#profile">Profile</a>
+              <a href="#experience">Experience</a>
+              <a href="#work">Selected work</a>
+              <a href="#capabilities">Capabilities</a>
+              <a href="#contact">Contact</a>
+            </nav>
+          </details>
+        </div>
+      </div>
+    </header>
 
-  <main class="card center">
-    <div class="topbar">
-      <div class="boot">Booting profile...</div>
-      <div class="status">Aviation Tech // Online</div>
-    </div>
+    <main id="main-content">
+      <section class="hero shell" id="top" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <p class="eyebrow hero-stagger"><span></span> Backend .NET engineer / Aviation technology</p>
+          <h1 id="hero-title" class="hero-stagger">Reliable backend systems for <em>real-world operations.</em></h1>
+          <p class="hero-lede hero-stagger">
+            I design and build resilient .NET services, APIs, and distributed systems for airline and travel technology - with clean architecture, event-driven thinking, and production reliability at the core.
+          </p>
 
-    <h1 class="name">Gewralds Braook</h1>
-    <div class="alias">aka BugMan</div>
+          <div class="hero-actions hero-stagger">
+            <a class="button button-primary" href="#experience">
+              Explore my experience
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m7 17 10-10M8 7h9v9" /></svg>
+            </a>
+            <a class="button button-ghost" href="https://github.com/GewraldsBraook" target="_blank" rel="noopener noreferrer">View GitHub</a>
+          </div>
 
-    <div class="headline">
-      Backend .NET Developer // CQRS // Event-Driven Systems
-    </div>
+          <dl class="hero-meta hero-stagger">
+            <div><dt>Based in</dt><dd>Manizales, Colombia</dd></div>
+            <div><dt>Work mode</dt><dd>Remote-ready / COT</dd></div>
+            <div><dt>Core focus</dt><dd>Reliable distributed systems</dd></div>
+          </dl>
+        </div>
 
-    <p class="description">
-      Building scalable backend solutions in the <strong>.NET ecosystem</strong>,
-      focused on <strong>aviation technology</strong>, clean architecture,
-      <strong>CQRS</strong>, async messaging, APIs, and cloud-based systems.
-    </p>
+        <div class="hero-visual hero-stagger" aria-label="A visual map of a resilient backend architecture">
+          <div class="console-card">
+            <div class="console-topline">
+              <div><span class="signal-dot"></span><span>System topology</span></div>
+              <span class="mono">GB-AV/01</span>
+            </div>
 
-    <div class="chips">
-      <div class="chip">C# / .NET</div>
-      <div class="chip">Azure</div>
-      <div class="chip">RabbitMQ</div>
-      <div class="chip">Redis</div>
-      <div class="chip">MongoDB</div>
-      <div class="chip">SQL Server</div>
-    </div>
+            <div class="system-map" aria-hidden="true">
+              <svg class="route-map" viewBox="0 0 620 390" fill="none" preserveAspectRatio="none">
+                <defs>
+                  <linearGradient id="route-gradient" x1="40" y1="350" x2="580" y2="30" gradientUnits="userSpaceOnUse">
+                    <stop stop-color="#22d3ee" />
+                    <stop offset="1" stop-color="#7c8cff" />
+                  </linearGradient>
+                  <filter id="route-glow" x="-30%" y="-30%" width="160%" height="160%">
+                    <feGaussianBlur stdDeviation="4" result="blur" />
+                    <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+                  </filter>
+                </defs>
+                <path class="route-shadow" d="M46 326C160 319 142 196 251 199C360 202 371 76 574 58" />
+                <path class="route-line" pathLength="1" d="M46 326C160 319 142 196 251 199C360 202 371 76 574 58" />
+                <circle class="route-origin" cx="46" cy="326" r="6" />
+                <circle class="route-destination" cx="574" cy="58" r="6" />
+              </svg>
 
-    <div class="links">
-      <a
-        class="btn-primary"
-        href="https://www.linkedin.com/in/gewralds-braook-39024b1b4/"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        LinkedIn
-      </a>
+              <div class="map-node node-client"><span>01</span><strong>Client channels</strong><small>Requests / contracts</small></div>
+              <div class="map-node node-api"><span>02</span><strong>API layer</strong><small>REST / integrations</small></div>
+              <div class="map-node node-domain"><span>03</span><strong>Domain services</strong><small>CQRS / workflows</small></div>
+              <div class="map-node node-events"><span>04</span><strong>Event backbone</strong><small>Async / resilient</small></div>
+            </div>
 
-      <a
-        class="btn-secondary"
-        href="https://github.com/GewraldsBraook"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        GitHub
-      </a>
-    </div>
+            <div class="console-footer">
+              <span><i></i> Production-minded</span>
+              <span>Latency <b>optimized</b></span>
+              <span>Mode <b>resilient</b></span>
+            </div>
+          </div>
+          <p class="visual-caption"><span>Architecture signal</span> Simple boundaries. Reliable flows. Observable behavior.</p>
+        </div>
+      </section>
 
-    <div class="footer-line">
-      <div>Sector: <span>Aviation</span></div>
-      <div class="accent">///</div>
-      <div>Mode: <span>Resilient Backend Systems</span></div>
-    </div>
-  </main>
-</body>
+      <section class="proof-band" aria-label="Career highlights">
+        <div class="shell proof-grid">
+          <div class="proof-item reveal"><strong>6+</strong><span>years building backend software</span></div>
+          <div class="proof-item reveal"><strong>3</strong><span>airline programs contributed to</span></div>
+          <div class="proof-item reveal"><strong>.NET</strong><span>Framework through versions 6-9</span></div>
+          <div class="proof-item reveal"><strong>End-to-end</strong><span>design, delivery, and production support</span></div>
+        </div>
+      </section>
+
+      <section class="section profile-section shell" id="profile" aria-labelledby="profile-title">
+        <div class="section-heading reveal">
+          <p class="section-index">01 / Profile</p>
+          <h2 id="profile-title">Built for the operational reality behind every request.</h2>
+        </div>
+
+        <div class="profile-layout">
+          <p class="profile-intro reveal">
+            Across airline operations, retailing, and reporting, I have worked where software decisions meet real operational pressure. My approach balances sound architecture with pragmatic delivery: understand the domain, make boundaries clear, and leave systems easier to operate than I found them.
+          </p>
+
+          <div class="principles-grid">
+            <article class="principle-card reveal">
+              <span class="card-number">01</span><h3>Reliability first</h3>
+              <p>Designing backend services and integration flows around continuity, maintainability, and production behavior.</p>
+            </article>
+            <article class="principle-card reveal">
+              <span class="card-number">02</span><h3>Domain clarity</h3>
+              <p>Using CQRS, clean architecture, and domain-driven practices when they make complex workflows easier to reason about.</p>
+            </article>
+            <article class="principle-card reveal">
+              <span class="card-number">03</span><h3>Technical ownership</h3>
+              <p>Contributing from requirement breakdown and technical design through reviews, delivery, debugging, and support.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section experience-section" id="experience" aria-labelledby="experience-title">
+        <div class="shell">
+          <div class="section-heading split-heading reveal">
+            <div><p class="section-index">02 / Experience</p><h2 id="experience-title">A career shaped by systems that cannot stand still.</h2></div>
+            <p>From reservation and reporting platforms to airline retailing and disruption workflows.</p>
+          </div>
+
+          <div class="timeline">
+            <article class="experience-card reveal">
+              <div class="timeline-marker" aria-hidden="true"><span></span></div>
+              <div class="experience-meta"><p class="period">Aug 2022 - Jun 2026</p><p>Manizales / Hybrid</p></div>
+              <div class="experience-body">
+                <div class="role-heading">
+                  <div><p class="company">FLYR</p><h3>Software Engineer II</h3></div>
+                  <span class="sector-tag">Aviation technology</span>
+                </div>
+                <ul>
+                  <li>Built and maintained backend services for Riyadh Air Offer &amp; Order capabilities using clean architecture, CQRS, event-driven design, and distributed patterns.</li>
+                  <li>Implemented through-flight logic in Disruption Management Tools supporting operational continuity for JSX during flight disruptions.</li>
+                  <li>Designed APIs and production components with C#, .NET, Azure, RabbitMQ, Redis, SQL Server, MongoDB, and REST.</li>
+                  <li>Contributed to technical design, backlog refinement, code reviews, delivery quality, and production support.</li>
+                </ul>
+                <div class="tag-list" aria-label="Technologies used at FLYR"><span>C# / .NET</span><span>Azure</span><span>RabbitMQ</span><span>Redis</span><span>MongoDB</span><span>CQRS</span></div>
+              </div>
+            </article>
+
+            <article class="experience-card reveal">
+              <div class="timeline-marker" aria-hidden="true"><span></span></div>
+              <div class="experience-meta"><p class="period">Feb 2022 - Aug 2022</p></div>
+              <div class="experience-body">
+                <div class="role-heading">
+                  <div><p class="company">Algar Tech LATAM</p><h3>Backend .NET Developer</h3></div>
+                  <span class="sector-tag">Enterprise software</span>
+                </div>
+                <ul>
+                  <li>Maintained and supported a business-critical enterprise application built on .NET Framework for a direct-sales organization.</li>
+                  <li>Resolved incidents, improved stability, and delivered corrective and focused functional enhancements using SQL Server and Microsoft ecosystem tools.</li>
+                  <li>Supported critical workflows through debugging, database analysis, and production support.</li>
+                </ul>
+                <div class="tag-list" aria-label="Technologies used at Algar Tech LATAM"><span>.NET Framework</span><span>SQL Server</span><span>Debugging</span><span>Production support</span></div>
+              </div>
+            </article>
+
+            <article class="experience-card reveal">
+              <div class="timeline-marker" aria-hidden="true"><span></span></div>
+              <div class="experience-meta"><p class="period">Jul 2019 - Feb 2022</p><p>Manizales / On-site</p></div>
+              <div class="experience-body">
+                <div class="role-heading">
+                  <div><p class="company">Newshore</p><h3>Back-End Developer</h3></div>
+                  <span class="sector-tag">Airline platforms</span>
+                </div>
+                <ul>
+                  <li>Developed backend functionality for VivaAir operations, reservation platforms, and internal services.</li>
+                  <li>Contributed to the SkyLedger operational reporting integration, improving data exchange between internal and external systems.</li>
+                  <li>Built with .NET Framework, ASP.NET Core, WCF, REST services, and SQL Server while supporting production availability.</li>
+                  <li>Automated internal processes with a focus on reliability and operational continuity.</li>
+                </ul>
+                <div class="tag-list" aria-label="Technologies used at Newshore"><span>ASP.NET Core</span><span>WCF</span><span>REST</span><span>SQL Server</span><span>Automation</span></div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section work-section shell" id="work" aria-labelledby="work-title">
+        <div class="section-heading split-heading reveal">
+          <div><p class="section-index">03 / Selected work</p><h2 id="work-title">Complex aviation workflows, translated into dependable software.</h2></div>
+          <p>Representative product work delivered within engineering teams.</p>
+        </div>
+
+        <div class="project-grid">
+          <article class="project-card reveal">
+            <div class="project-topline"><span>Riyadh Air</span><span>01</span></div>
+            <div class="project-icon" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M14 45h36M19 39l10-23h7l10 23M24 29h16" /><circle cx="32" cy="49" r="2" /></svg></div>
+            <h3>Offer &amp; Order</h3>
+            <p>Backend components for airline retailing and ordering, centered on CQRS, clean architecture, event-driven flows, and explicit integration boundaries.</p>
+            <div class="project-focus"><span>Focus</span><strong>Retailing / ordering / distributed workflows</strong></div>
+          </article>
+
+          <article class="project-card featured reveal">
+            <div class="project-topline"><span>JSX</span><span>02</span></div>
+            <div class="project-icon" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M9 39h46M14 39l9-10h17l10 10M31 29V15h6l7 14" /><path d="M20 49h24" /></svg></div>
+            <h3>Disruption Management Tools</h3>
+            <p>Through-flight logic for disruption scenarios, built around domain workflows, operational continuity, and production reliability.</p>
+            <div class="project-focus"><span>Focus</span><strong>Continuity / domain logic / operations</strong></div>
+          </article>
+
+          <article class="project-card reveal">
+            <div class="project-topline"><span>VivaAir</span><span>03</span></div>
+            <div class="project-icon" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M13 45V19h38v26H13Z" /><path d="M20 37l8-8 7 6 9-10M20 50h24" /></svg></div>
+            <h3>SkyLedger Integration</h3>
+            <p>Operational reporting integration using WCF, REST services, and SQL Server for reliable internal-to-external data exchange.</p>
+            <div class="project-focus"><span>Focus</span><strong>Reporting / integrations / data exchange</strong></div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section capabilities-section" id="capabilities" aria-labelledby="capabilities-title">
+        <div class="shell capabilities-layout">
+          <div class="capabilities-intro reveal">
+            <p class="section-index">04 / Capabilities</p>
+            <h2 id="capabilities-title">A practical toolkit for dependable backend delivery.</h2>
+            <p>Technology choices should make the system easier to understand, change, and operate. These are the tools and practices I have used to get there.</p>
+          </div>
+
+          <div class="capability-list">
+            <article class="capability-row reveal"><span class="capability-index">01</span><div><h3>Languages &amp; frameworks</h3><p>C#, .NET Framework, .NET 6/7/8/9, ASP.NET Core, WCF</p></div></article>
+            <article class="capability-row reveal"><span class="capability-index">02</span><div><h3>Architecture &amp; backend</h3><p>REST APIs, microservices, distributed systems, event-driven architecture, clean architecture, CQRS, domain-driven design</p></div></article>
+            <article class="capability-row reveal"><span class="capability-index">03</span><div><h3>Cloud &amp; delivery</h3><p>Microsoft Azure, Azure DevOps, CI/CD, Docker, technical documentation</p></div></article>
+            <article class="capability-row reveal"><span class="capability-index">04</span><div><h3>Messaging &amp; data</h3><p>RabbitMQ, Redis, SQL Server, MongoDB, Postman</p></div></article>
+            <article class="capability-row reveal"><span class="capability-index">05</span><div><h3>Quality &amp; ways of working</h3><p>Unit testing, xUnit, code reviews, debugging, production support, Agile, Scrum, Kanban</p></div></article>
+            <article class="capability-row reveal"><span class="capability-index">06</span><div><h3>AI-assisted engineering</h3><p>GitHub Copilot, Copilot CLI, Claude Code, and spec-driven development - applied selectively with technical ownership</p></div></article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section education-section shell" aria-labelledby="education-title">
+        <div class="education-card reveal">
+          <div><p class="section-index">05 / Education</p><h2 id="education-title">Computer Engineering</h2><p class="education-school">University of Caldas</p></div>
+          <div class="education-detail"><span class="mono">2019 - 2026</span><p>Bachelor's Degree in Computer Engineering (Ingeniería en Informática), completed part-time while working full-time in the software industry.</p></div>
+        </div>
+      </section>
+
+      <section class="contact-section" id="contact" aria-labelledby="contact-title">
+        <div class="shell contact-inner">
+          <div class="contact-copy reveal">
+            <p class="section-index">06 / Contact</p>
+            <h2 id="contact-title">Let's build software that holds up in the real world.</h2>
+            <p>For backend engineering, aviation technology, or distributed systems conversations, the best way to reach me is by email or LinkedIn.</p>
+          </div>
+
+          <div class="contact-actions reveal">
+            <a class="contact-link primary" href="mailto:gewralds@outlook.com"><span>Email me</span><strong>gewralds@outlook.com</strong><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m7 17 10-10M8 7h9v9" /></svg></a>
+            <a class="contact-link" href="https://www.linkedin.com/in/gewralds-braook-39024b1b4/" target="_blank" rel="noopener noreferrer"><span>Connect</span><strong>LinkedIn</strong><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m7 17 10-10M8 7h9v9" /></svg></a>
+            <a class="contact-link" href="https://github.com/GewraldsBraook" target="_blank" rel="noopener noreferrer"><span>Explore</span><strong>GitHub</strong><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m7 17 10-10M8 7h9v9" /></svg></a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="shell footer-inner">
+        <p>© <span data-year>2026</span> Gewralds Braook</p>
+        <p class="mono">Backend .NET / Aviation systems / COT UTC-5</p>
+        <a href="#top">Back to top <span aria-hidden="true">↑</span></a>
+      </div>
+    </footer>
+  </body>
 </html>
